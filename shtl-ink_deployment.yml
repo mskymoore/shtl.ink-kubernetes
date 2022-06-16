@@ -18,22 +18,37 @@ spec:
           hostPath:
             path: /opt/config/.env.docker
             type: "File"
+      initContainers:
+        - name: init-database
+          image: busybox:1.28
+          command: ['sh', '-c', "until nslookup shtl-ink-db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
       containers:
-      - name: shtl-ink-api
-        image: skymoore/shtl-ink-api:latest
-        imagePullPolicy: Always
-        ports:
-        - name: pod-api-port
-          containerPort: 8000
-          protocol: TCP
-      - name: shtl-ink
-        image: skymoore/shtl-ink:latest
-        imagePullPolicy: Always
-        ports:
-        - name: pod-front-port
-          containerPort: 3000
-          protocol: TCP
-        volumeMounts:
-          - mountPath: /opt/shtl_ink/.env.local
-            name: frontend-environment
+        - name: shtl-ink-api
+          image: skymoore/shtl-ink-api:latest
+          imagePullPolicy: Always
+          env:
+            - name: DB_HOST
+              value: shtl-ink-db
+            - name: DB_NAME
+              value: shtlink
+            - name: DB_USER
+              value: shtlink
+            - name: DB_PASS
+              value: shtlink
+          ports:
+            - name: pod-api-port
+              containerPort: 8000
+              protocol: TCP
+
+        - name: shtl-ink
+          image: skymoore/shtl-ink:latest
+          imagePullPolicy: Always
+          ports:
+            - name: pod-front-port
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: frontend-environment
+              mountPath: /opt/shtl_ink/.env.local
+              
     

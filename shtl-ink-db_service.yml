@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shtl-ink-db
+  labels:
+    app: db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: shtl-ink-db
+  ports:
+  - name: db-port
+    protocol:  TCP
+    port: 5432
+    targetPort: pod-db-port

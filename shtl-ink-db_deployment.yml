@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shtl-ink-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "shtl-ink-db"
+  template:
+    metadata:
+      labels:
+        app: shtl-ink-db
+    spec:
+      hostname: shtl-ink-db
+      volumes:
+        - name: database
+          emptyDir:
+            medium: ""
+
+      containers:
+        - name: shtl-ink-db
+          image: postgres:latest
+          env:
+            - name: PG_TRUST_LOCALNET
+              value: "true"
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+            - name: POSTGRES_USER
+              value: shtlink
+            - name: POSTGRES_PASSWORD
+              value: shtlink
+            - name: POSTGRES_DB
+              value: shtlink
+          ports:
+            - name: pod-db-port
+              containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/postgresql/data
