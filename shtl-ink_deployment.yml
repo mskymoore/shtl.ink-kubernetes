@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shtl-ink-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "shtl-ink-api"
+  template:
+    metadata:
+      labels:
+        app: shtl-ink-api
+    spec:
+      volumes:
+        - name: frontend-environment
+          hostPath:
+            path: /opt/config/.env.docker
+            type: "File"
+      containers:
+      - name: shtl-ink-api
+        image: skymoore/shtl-ink-api:latest
+        imagePullPolicy: Always
+        ports:
+        - name: pod-api-port
+          containerPort: 8000
+          protocol: TCP
+      - name: shtl-ink
+        image: skymoore/shtl-ink:latest
+        imagePullPolicy: Always
+        ports:
+        - name: pod-front-port
+          containerPort: 3000
+          protocol: TCP
+        volumeMounts:
+          - mountPath: /opt/shtl_ink/.env.local
+            name: frontend-environment
+    

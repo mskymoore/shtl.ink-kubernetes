@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shtl-ink-api
+  labels:
+    app: api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: shtl-ink-api
+  ports:
+  - name: api-port
+    protocol:  TCP
+    port: 8000
+    targetPort: pod-api-port
+  - name: front-port
+    protocol: TCP
+    port: 3000
+    targetPort: pod-front-port
