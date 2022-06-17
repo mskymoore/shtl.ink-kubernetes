@@ -2,6 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: shtl-ink
   name: shtl-ink-db
 spec:
   replicas: 1

@@ -2,13 +2,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: shtl-ink-api
+  namespace: shtl-ink
+  name: shtl-ink-local-service
   labels:
     app: api-service
 spec:
   type: LoadBalancer
   selector:
-    app: shtl-ink-api
+    app: shtl-ink
   ports:
   - name: api-port
     protocol:  TCP

@@ -2,22 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shtl-ink-api
+  name: shtl-ink
+  namespace: shtl-ink
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: "shtl-ink-api"
+      app: "shtl-ink"
   template:
     metadata:
+      namespace: shtl-ink
       labels:
-        app: shtl-ink-api
+        app: shtl-ink
     spec:
-      volumes:
-        - name: frontend-environment
-          hostPath:
-            path: /opt/config/.env.docker
-            type: "File"
       initContainers:
         - name: init-database
           image: busybox:1.28
@@ -35,20 +32,28 @@ spec:
               value: shtlink
             - name: DB_PASS
               value: shtlink
+            - name: BASE_URL
+              value: https://api.shtl.ink
+            - name: ROOT_REDIRECT_URL
+              value: https://shtl.ink
           ports:
             - name: pod-api-port
               containerPort: 8000
               protocol: TCP
 
         - name: shtl-ink
-          image: skymoore/shtl-ink:latest
+          image: skymoore/shtl-ink:deploy
           imagePullPolicy: Always
           ports:
             - name: pod-front-port
               containerPort: 3000
               protocol: TCP
-          volumeMounts:
-            - name: frontend-environment
-              mountPath: /opt/shtl_ink/.env.local
+        - name: redirect-http-https
+          image: skymoore/haproxy-http-to-https
+          imagePullPolicy: Always
+          ports:
+            - name: http-to-https
+              containerPort: 80
+              protocol: TCP
               
     

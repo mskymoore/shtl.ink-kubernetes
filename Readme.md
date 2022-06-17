@@ -1,15 +1,17 @@
 1. Start minikube
    ```bash
    minikube start
+   # stays open
    minikube dashboard
    ```
 2. Start a minikube tunnel
    ```bash
-   # new terminal
+   # new terminal, stays open
    minikube tunnel
    ```
 3. Mount frontend config to minikube
    ```bash
+   # new terminal, stays open
    # minikube can only mount directories
    minikube mount config:/opt/config
    ```
