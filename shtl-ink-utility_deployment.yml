@@ -25,7 +25,7 @@ spec:
               protocol: TCP
               
         - name: aws-elb-dyndns
-          image: skymoore/aws-elb-dyndns
+          image: skymoore/docker-cname-dynamic-dns
           imagePullPolicy: Always
           env:
             - name: USER
@@ -44,7 +44,7 @@ spec:
               value: shtl.ink
             - name: DETECTIP
               value: "1"
-            - name: LBDNSNAME
+            - name: CNAME
               valueFrom:
                 secretKeyRef:
                   name: shtl-ink-secrets
