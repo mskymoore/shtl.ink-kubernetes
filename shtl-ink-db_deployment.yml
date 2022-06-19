@@ -1,17 +1,4 @@
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: shtl-ink-db-claim
-  namespace: shtl-ink
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: shtl-ink-storage-class
-  resources:
-    requests:
-      storage: 20Gi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
