@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shtl-ink-utility
+  namespace: shtl-ink
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "shtl-ink"
+  template:
+    metadata:
+      namespace: shtl-ink
+      labels:
+        app: shtl-ink
+    spec:
+      containers:
+        - name: redirect-http-https
+          image: skymoore/haproxy-http-to-https
+          imagePullPolicy: Always
+          ports:
+            - name: http-to-https
+              containerPort: 80
+              protocol: TCP
+              
+        - name: aws-elb-dyndns
+          image: skymoore/aws-elb-dyndns
+          imagePullPolicy: Always
+          env:
+            - name: USER
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: google-dyndns-user
+                  optional: false
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: google-dyndns-pass
+                  optional: false
+            - name: HOSTNAME
+              value: shtl.ink
+            - name: DETECTIP
+              value: "1"
+            - name: LBDNSNAME
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: google-dyndns-lbdnsname
+                  optional: false
+            - name: INTERVAL
+              value: "3"
+            - name: SERVICE
+              value: google

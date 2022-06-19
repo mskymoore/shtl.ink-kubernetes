@@ -1,4 +1,17 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shtl-ink-db-claim
+  namespace: shtl-ink
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: shtl-ink-storage-class
+  resources:
+    requests:
+      storage: 20Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +29,20 @@ spec:
     spec:
       hostname: shtl-ink-db
       volumes:
-        - name: database
-          emptyDir:
-            medium: ""
-
+        - name: database-ebs
+          persistentVolumeClaim:
+            claimName: shtl-ink-db-claim
+      initContainers:
+        - name: volume-dirs-init-cntr
+          image: busybox:1.35
+          command:
+            - "/bin/mkdir"
+          args:
+            - "-p"
+            - "/db/data"
+          volumeMounts:
+            - name: database-ebs
+              mountPath: "/db"
       containers:
         - name: shtl-ink-db
           image: postgres:latest
@@ -29,15 +52,25 @@ spec:
             - name: POSTGRES_HOST_AUTH_METHOD
               value: trust
             - name: POSTGRES_USER
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-user
             - name: POSTGRES_PASSWORD
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-pass
             - name: POSTGRES_DB
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-name
           ports:
             - name: pod-db-port
               containerPort: 5432
               protocol: TCP
           volumeMounts:
-            - name: database
+            - name: database-ebs
               mountPath: /var/lib/postgresql/data
+              subPath: data

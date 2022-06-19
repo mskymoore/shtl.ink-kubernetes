@@ -27,11 +27,20 @@ spec:
             - name: DB_HOST
               value: shtl-ink-db
             - name: DB_NAME
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-name
             - name: DB_USER
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-user
             - name: DB_PASS
-              value: shtlink
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: db-pass
             - name: BASE_URL
               value: https://api.shtl.ink
             - name: ROOT_REDIRECT_URL
@@ -48,12 +57,3 @@ spec:
             - name: pod-front-port
               containerPort: 3000
               protocol: TCP
-        - name: redirect-http-https
-          image: skymoore/haproxy-http-to-https
-          imagePullPolicy: Always
-          ports:
-            - name: http-to-https
-              containerPort: 80
-              protocol: TCP
-              
-    

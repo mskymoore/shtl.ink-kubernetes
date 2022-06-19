@@ -30,5 +30,5 @@
 
 7. View startup logs
     ```bash
-    kubectl logs $POD_NAME -c $CONTAINER_NAME --tail 100 --follow
+    kubectl logs $POD_NAME -c $CONTAINER_NAME -n $NAMESPACE --tail 100 --follow
     ```
