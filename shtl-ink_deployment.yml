@@ -31,16 +31,19 @@ spec:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-name
+                  optional: false
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-user
+                  optional: false
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-pass
+                  optional: false
             - name: BASE_URL
               value: https://api.shtl.ink
             - name: ROOT_REDIRECT_URL

@@ -56,16 +56,19 @@ spec:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-user
+                  optional: false
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-pass
+                  optional: false
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
                   name: shtl-ink-secrets
                   key: db-name
+                  optional: false
           ports:
             - name: pod-db-port
               containerPort: 5432
