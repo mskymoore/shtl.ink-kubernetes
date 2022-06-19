@@ -4,7 +4,10 @@
    ```
 2. Deploy the project
    ```bash
-   kubectl apply -f namespace_deployment.yml
+   kubectl apply -f shtl-ink_namespace.yml
+   kubectl apply -f shtl-ink_storage_classes.yml
+   # fill each key in this file with `echo -n 'mysecretvalue' | base64`
+   kubectl apply -f shtl-ink_secrets.yml
    kubectl apply -f shtl-ink-db_deployment.yml
    kubectl apply -f shtl-ink-db_service.yml
    kubectl apply -f shtl-ink_depoyment.yml
