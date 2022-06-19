@@ -1,6 +1,6 @@
 1. Configure kubectl
    ```bash
-   aws eks --region $(terraform output -raw region) update-kubeconfig --name $(terraform output -raw cluster_name)
+   aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME
    ```
 2. Deploy the project
    ```bash
