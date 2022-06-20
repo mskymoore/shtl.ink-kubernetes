@@ -21,7 +21,7 @@ spec:
           command: ['sh', '-c', "until nslookup shtl-ink-db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
       containers:
         - name: shtl-ink-api
-          image: skymoore/shtl-ink-api:latest
+          image: skymoore/shtl-ink-api:deploy-supertokens
           imagePullPolicy: Always
           env:
             - name: DB_HOST
@@ -44,17 +44,33 @@ spec:
                   name: shtl-ink-secrets
                   key: db-pass
                   optional: false
+            - name: SUPERTOKENS_CONN_URI
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: supertokens-conn-uri
+                  optional: false
+            - name: SUPERTOKENS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: shtl-ink-secrets
+                  key: supertokens-api-key
+                  optional: false
             - name: BASE_URL
               value: https://api.shtl.ink
-            - name: ROOT_REDIRECT_URL
+            - name: FRONTEND_BASE_URL
               value: https://shtl.ink
+            - name: APP_NAME
+              value: shtl.ink
+            - name: COOKIE_DOMAIN
+              value: .shtl.ink
           ports:
             - name: pod-api-port
               containerPort: 8000
               protocol: TCP
 
         - name: shtl-ink
-          image: skymoore/shtl-ink:deploy
+          image: skymoore/shtl-ink:deploy-supertokens
           imagePullPolicy: Always
           ports:
             - name: pod-front-port
