@@ -1,0 +1,1 @@
+- Update cluster in Terraform to use spot instances with max bid 

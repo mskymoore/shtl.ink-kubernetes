@@ -21,7 +21,7 @@ spec:
           command: ['sh', '-c', "until nslookup shtl-ink-db.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
       containers:
         - name: shtl-ink-api
-          image: skymoore/shtl-ink-api:deploy-supertokens
+          image: skymoore/shtl-ink-api:latest-deploy
           imagePullPolicy: Always
           env:
             - name: DB_HOST

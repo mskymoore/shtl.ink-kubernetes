@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shtl-ink-utility
+  name: shtl-ink-ddns
   namespace: shtl-ink
 spec:
   replicas: 1
@@ -15,15 +15,7 @@ spec:
       labels:
         app: shtl-ink
     spec:
-      containers:
-        - name: redirect-http-https
-          image: skymoore/haproxy-http-to-https
-          imagePullPolicy: Always
-          ports:
-            - name: http-to-https
-              containerPort: 80
-              protocol: TCP
-              
+      containers: 
         - name: aws-elb-dyndns
           image: skymoore/docker-cname-dynamic-dns
           imagePullPolicy: Always
@@ -31,13 +23,13 @@ spec:
             - name: USER
               valueFrom:
                 secretKeyRef:
-                  name: shtl-ink-secrets
+                  name: shtl-ink-ddns-secrets
                   key: google-dyndns-user
                   optional: false
             - name: PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: shtl-ink-secrets
+                  name: shtl-ink-ddns-secrets
                   key: google-dyndns-pass
                   optional: false
             - name: HOSTNAME
@@ -47,7 +39,7 @@ spec:
             - name: CNAME
               valueFrom:
                 secretKeyRef:
-                  name: shtl-ink-secrets
+                  name: shtl-ink-ddns-secrets
                   key: google-dyndns-lbdnsname
                   optional: false
             - name: INTERVAL
