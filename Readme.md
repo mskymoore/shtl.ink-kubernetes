@@ -11,19 +11,18 @@
    ```bash
    aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME
    ```
-2. Follow [this guide](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html) to create an iam oidc provider for the cluster.
-3. Follow [this guide](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html) to deploy the aws load balancer controller into the cluster.
-4. Populate ```0300_shtl-ink_secrets.yml``` with the following
+2. Follow [this guide](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html) to deploy the aws load balancer controller into the cluster.
+3. Populate ```0300_shtl-ink_secrets.yml``` with the following
    ```bash
    # without the -n a \n character is on the end of every secret, which jacks things up.
    echo -n 'SOMESECRET' | base64
    # copy the output and put it on the appropriate line in 0300_shtl-ink_secrets.yml
    ```
-5. Deploy the project
+4. Deploy the project
    ```bash
    ./stack.sh create
    ```
-6. If a CNAME is needed on the root domain
+5. If a CNAME is needed on the root domain
    - configure ```900_shtl-ink-ddns_secrets.yml``` and ```901_shtl-ink-ddns_deployment.yml```.
    - Deploy the ddns
       ```bash
