@@ -11,9 +11,9 @@
    ```bash
    aws eks --region $AWS_REGION update-kubeconfig --name $CLUSTER_NAME
    ```
-2. Follow [this](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html) guide to create an iam oidc provider for the cluster.
-3. Follow [this](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html) guide to deploy the aws load balancer controller into the cluster.
-4. Populate the secrets with the following
+2. Follow [this guide](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html) to create an iam oidc provider for the cluster.
+3. Follow [this guide](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html) to deploy the aws load balancer controller into the cluster.
+4. Populate ```0300_shtl-ink_secrets.yml``` with the following
    ```bash
    # without the -n a \n character is on the end of every secret, which jacks things up.
    echo -n 'SOMESECRET' | base64
