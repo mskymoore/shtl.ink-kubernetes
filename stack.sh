@@ -4,7 +4,7 @@ set -x
 command=$1
 
 # yml files starting with 4 digit number and an underscore
-files=($(ls -d -- [0-9][0-9][0-9][0-9]_*.yml))
+files=($(ls -d -- shtl-ink/[0-9][0-9][0-9][0-9]_*.yml))
 
 case $command in
     apply | create)
