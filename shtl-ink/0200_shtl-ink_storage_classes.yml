@@ -4,8 +4,8 @@ kind: StorageClass
 metadata:
   name: shtl-ink-storage-class
   namespace: shtl-ink
-provisioner: kubernetes.io/aws-ebs
+provisioner: ebs.csi.aws.com
 parameters:
-  type: gp2
+  type: gp3
   fsType: ext4
   encrypted: "true"
