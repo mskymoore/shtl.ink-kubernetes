@@ -6,7 +6,7 @@ metadata:
   namespace: shtl-ink
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:585441654511:certificate/df11c2fd-2ffc-45c1-8e3e-b4189ef2d5e1
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:585441654511:certificate/e3508f4c-39e6-4b86-8f29-4a66e5e0ccce
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true,idle_timeout.timeout_seconds=600
     alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60

@@ -2,13 +2,14 @@
 # set -x
 # apply | create | delete
 
-stack=$1
-command=$2
+command=$1
+stack=$2
+
 
 stacks=($(find . -type d -maxdepth 1 -not -path './.*' -exec basename {} \;))
 
 if [[ " ${stacks[*]} " =~ " $stack " ]];then
-    echo "deploying stack $stack"
+    echo "$command stack $stack"
 else
     echo "no such stack $stack"
     exit 1
