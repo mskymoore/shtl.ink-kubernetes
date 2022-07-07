@@ -21,12 +21,6 @@
    ```bash
    ./stack.sh create shtl-ink
    ```
-4. If a CNAME is needed on the root domain
-   - configure ```900_shtl-ink-ddns_secrets.yml``` and ```901_shtl-ink-ddns_deployment.yml```.
-   - Deploy the ddns
-      ```bash
-      ./stack.sh create ddns
-      ```
 ---
 ## Remove from a cluster
 1. Remove the project
